@@ -47,4 +47,4 @@ where
     T: BarHandle;
 ```
 
-See the [example source file](src/trait_abstraction.rs) on how to implement `BarHandle`.
+See the [example source file](src/trait_abstraction.rs) for how to implement `BarHandle`.
