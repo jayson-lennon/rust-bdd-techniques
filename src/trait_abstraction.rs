@@ -5,6 +5,20 @@
 //!
 //! To avoid the infectious trait bounds, we can create another trait and encapsulate all of the
 //! required traits within.
+//!
+//! Benefits:
+//! - The implementing structure carries all dependencies with it, so it can be easily passed
+//!   around an application
+//! - Dependencies are stored on the stack without any indirection
+//! - Since the implementation cost is high, the implementing structures will only depend on the
+//!   minimum amount of traits required for operation.
+//!
+//! Drawbacks:
+//! - A new trait must be created per structure
+//! - Multiple trait bounds are required when passing multiple structures to a single function
+//! - Including many dependencies within a structure can complicate construction
+//! - Dependencies are mixed with structure data
+//! - All dependencies must be mocked for testing
 
 #![allow(dead_code)]
 #![allow(unused_variables)]
