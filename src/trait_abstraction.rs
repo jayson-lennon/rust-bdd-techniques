@@ -77,7 +77,7 @@ where
 {
 }
 
-// To avoid infectious traits, we create this "handle" trait. I call it "handle" because if
+// To avoid infectious traits, we create this "handle" trait. I call it "handle" because it
 // provides a "handle" to the concrete structure.
 trait MyStructHandle {
     // These associated types are the same bounds as the structure.
