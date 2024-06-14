@@ -30,9 +30,9 @@ Table of Contents
 
 Quick step-by-step guide for BDD:
 1. Isolate individual behaviors that your app needs to do
-2. Write a test case for a single behavior with a single outcome
+2. Create an empty test case for a single behavior with a single outcome
 3. In the test case, write the ideal API that you would like in order to achieve the behavior
-  - After writing the API in the test case, your test will fail because there is no implementation yet
+    - After writing the API in the test case, your test will fail because there is no implementation yet
 4. Implement the API in order to pass _just_ this test case.
   - Use a minimal implementation. Don't add code in anticipation of what you might need later.
   - Refactor your implementation _and_ your test cases as needed.
