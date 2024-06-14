@@ -21,10 +21,10 @@ Table of Contents
   * [Spy](#spy)
   * [True Mock](#true-mock)
   * [Fake](#fake)
-* [Test Tables](#test-tables)
 * [Centralized Dependency Container](#centralized-dependency-container)
 * [Trait Abstraction](#trait-abstraction)
 * [Traits as Associated Types](#traits-as-associated-types)
+* [Test Tables](#test-tables)
 * [Mutation Testing](#mutation-testing)
 
 ## Behavior-Driven Development
