@@ -55,7 +55,7 @@ where
     two: Two,
 }
 
-// Implementation where we provide a default `Two`.
+// Implementation using the default `Two`
 impl<One> MyStruct<One, FooTwo>
 where
     One: TraitOne,
@@ -68,7 +68,7 @@ where
     }
 }
 
-// Implementation where `Two` is provided.
+// Implementation where `Two` is provided via method.
 impl<One, Two> MyStruct<One, Two>
 where
     One: TraitOne,
