@@ -32,10 +32,10 @@ Quick step-by-step guide for BDD:
 1. Isolate individual behaviors that your app needs to do
 2. Create an empty test case for a single behavior with a single outcome
 3. In the test case, write the ideal API that you would like in order to achieve the behavior
-    - After writing the API in the test case, your test will fail because there is no implementation yet
+   - After writing the API in the test case, your test will fail because there is no implementation yet
 4. Implement the API in order to pass _just_ this test case.
-    - Use a minimal implementation. Don't add code in anticipation of what you might need later.
-    - Refactor your implementation _and_ your test cases as needed.
+   - Use a minimal implementation. Don't add code in anticipation of what you might need later.
+   - Refactor your implementation _and_ your test cases as needed.
 5. Go back to step 1
 
 Structure your tests like this:
@@ -53,9 +53,9 @@ fn my_object_under_test_does_a_specific_thing_with_correct_input() {
 
 Things to note:
 - The name of the test function should be long and descriptive with enough information to understand:
-  1. The behavior under test
-  2. What category of input we are using with the behavior (happy path, error path, etc)
-  3. What the result should be
+  - The behavior under test
+  - What category of input we are using with the behavior (happy path, error path, etc)
+  - What the result should be
 - Tests should assert that a single behavior works, ideally being checked with a single assert.
   - "The file is saved" is one behavior, but may have two asserts like `assert!(path.exists())` and `assert_eq!(file_contents, "expected data")`.
   - A single assert is the _goal_, but not all tests will meet this goal and that's OK.
