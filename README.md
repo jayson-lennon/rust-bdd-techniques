@@ -29,6 +29,7 @@ Table of Contents
 ## Behavior-Driven Development
 
 Quick step-by-step guide for BDD:
+
 1. Isolate individual behaviors that your app needs to do
 2. Create an empty test case for a single behavior with a single outcome
 3. In the test case, write the ideal API that you would like in order to achieve the behavior
@@ -52,9 +53,10 @@ fn my_object_under_test_does_a_specific_thing_with_correct_input() {
 ```
 
 Things to note:
-- The name of the test function should be long and descriptive with enough information to understand:
+
+- The name of the test function should be long and descriptive, with enough information to understand:
   - The behavior under test
-  - What category of input we are using with the behavior (happy path, error path, etc)
+  - What category of input is used with the behavior (happy path, error path, etc)
   - What the result should be
 - Tests should assert that a single behavior works, ideally being checked with a single assert.
   - "The file is saved" is one behavior, but may have two asserts like `assert!(path.exists())` and `assert_eq!(file_contents, "expected data")`.
@@ -66,6 +68,7 @@ Things to note:
 The "Given" line describes the state of the application where the test is
 applicable. It should be concise and doesn't have to be a complete sentence.
 Here are some examples:
+
 - Given the search box is selected
 - Given the file does not exist
 - Given the user didn't enter a matching password in the password confirmation box
@@ -74,12 +77,13 @@ Here are some examples:
 After the comment line, write the setup code required to get the system to the
 state described. This should be somewhere between 1 to 3 function calls
 regardless of system complexity. If your setup code is longer than 3 calls,
-then please check out the next section on [Change-Resistant
-Tests](#change-resistant_tests).
+then please check out the next section on [change-resistant
+tests](#change-resistant-tests).
 
 ### When
 
-The "When" line describes _a single_ action that is taken:
+The "When" line describes _a single_ action that is taken. Examples:
+
 - When the form is saved for later
 - When trying to submit a bug report
 - When checking the password complexity
@@ -91,7 +95,8 @@ should almost always be a single function call.
 ### Then
 
 The "Then" line describes the end result of what should happen after executing
-the "When":
+the "When". Examples:
+
 - Then the file is saved
 - Then the program exits
 - Then no new records are created
@@ -101,8 +106,10 @@ After the comment line, write the assertion needed to confirm that the end
 result is what was expected. Nearly all tests should have 1 assertion and it
 should confirm whatever was described in the "Then". If you feel like you need
 more than 1 assertion, ask yourself these questions:
+
 - Do both assertions confirm what was expected by the "Then"?
 - Am I asserting that a single behavior occurred?
+
 If you answered "no" to either question, then you need another test.
 
 ## Change-Resistant Tests
@@ -111,7 +118,7 @@ Test code is production code, treat it with the same level of craftsmanship
 that you would for the code under test.
 
 Nearly all setup ("Given") code should be placed behind helper functions or
-builders, even for trivial cases. These will break when you change an API, but
+builders, even for trivial cases. These helpers and builders will break when you change an API, but
 dependent tests won't break since the breakage was isolated. When done
 correctly, you can have hundreds of tests and still freely change your APIs
 with just a small amount of isolated breakage.
@@ -204,7 +211,7 @@ fn fully_encapsulated_example() {
     // will allow the setup code to resist changes. Recommend packing a lot of
     // different options into this builder in order to maximize re-use across
     // many  tests.
-    let args = FooTheBarsArgs::builder()
+    let args = FooTheBarsArgs::default()
         .using_foo(FooA)
         .with_bar(BarB)
         .and_feature(DummyFeature)
@@ -252,14 +259,16 @@ of each kind:
 | **True Mock**                         | Similar to a Spy but with built-in assertions to check expected behaviors.                              |
 | **Fake**                              | Contains business logic for testing purposes. Simulates parts of the system with real behavior.         |
 
-I try to use the above terms in the test double structure in order to identify
-what kind it is. So if I have `DummyThing` then I know it doesn't do anything,
-if I have a `SpyThing` then I know it's tracking method calls, etc.
+Try to use the above terms in the test double structure in order to identify
+what kind it is. So if you have `DummyThing` then you'll know it doesn't do
+anything, if you have a `SpyThing` then you know it's tracking method calls,
+etc.
 
 ### Dummy
 
-Dummy implementations don't do anything. They are there because they have to
-be. Use your IDE to generate it from a trait and you're done.
+Dummy implementations don't do anything. They are needed in cases when the
+thing you are testing requires a dependency regardless of whether you are
+testing that part. Use your IDE to generate it from a trait and you're done.
 
 ```rust
 trait Feature {
@@ -376,7 +385,7 @@ struct MockFoo {
 
 impl MockFoo {
     // This is the thing that the mock is aware of, but users of the mock may
-    // not necessarily know.
+    // not necessarily know the details of when this is true.
     pub fn discovered_the_meaning_of_life(&self) -> bool {
         self.discovered_life.load(Ordering::Relaxed)
     }
@@ -406,10 +415,9 @@ fn feature() {
 ### Fake
 
 Fakes are simulated versions of the real thing. They can be useful for
-simulating external services and for services that you make heavy use of in
-many test cases. But be careful not to re-implement the entire service in a
-fake. You'll also probably want a few unit tests to make sure the fake works
-correctly.
+simulating external services and for any services being used frequently. But be
+careful not to re-implement the entire service in a fake. You'll also probably
+want a few unit tests to make sure the fake works correctly.
 
 ```rust
 type Id = usize;
@@ -449,40 +457,10 @@ impl Repo for FakeFoo {
 }
 ```
 
-You can also add flags to a fake builder to trigger different behaviors at
-different points. Like if you want a failure to occur after some number of
-method calls, you can add a counter and then return errors after the counter
-reaches the desired amount.
-
-## Test Tables
-
-Test tables provide a way to test multiple things in one test. These are useful
-when testing something where the return value is obvious, and doing a "Given,
-When Then" doesn't add much (or any) value:
-
-```rust
-#[test]
-fn calculates_line_slope() {
-    let cases = [
-        // (x1, y1), (x2, y2), slope kind
-        (Line::from((0, 0), (1, 1)), Slope::Up(1)),
-        (Line::from((1, 1), (0, 0)), Slope::Down(-1)),
-        (Line::from((0, 0), (1, 0)), Slope::Flat),
-        (Line::from((0, 1), (0, 0)), Slope::Vertical),
-    ];
-    for (i, (a, b, expect)) in cases.into_iter().enumerate() {
-        assert_eq!(calculate_slope(a, b), expect, "failure on case {i}");
-    }
-}
-```
-
-You can also wrap up creation of each case with a function if the setup code is
-long or noisy. Add comments to each case if it's not obvious what is being
-tested.
 
 ## Centralized Dependency Container
 
-An simple way to manage dependencies is to put all of them into a single
+A simple way to manage dependencies is to put all of them into a single
 container structure. This container can then be shared across the application and
 individual dependencies can be accessed when needed.
 
@@ -507,8 +485,7 @@ let container = DependencyContainer::default();
 use_foo(container.foo());
 ```
 
-See the [example source file](src/centralized_dependencies.rs) for details and
-how to implement a centralized dependency container.
+See the [example source file](src/centralized_dependencies.rs) for implementation details.
 
 ## Trait Abstraction
 
@@ -565,13 +542,39 @@ more complicated because all dependencies must be constructed for all tests,
 and there is also more boilerplate for each structure.
 
 However, it can be convenient to encapsulate the dependencies within the
-structure because they they don't need to be pulled from a central dependency
-container. This benefit increases the more dependencies that the particular
-structure uses.
+structure because they don't need to be pulled from a central dependency
+container and thus there's no need to pass the dependency container around on
+every function call.
 
 The implementation is a bit verbose, so check out the [example source
 file](src/trait_abstraction.rs) for more details on how to implement the
 `BarHandle` abstraction.
+
+## Test Tables
+
+Test tables provide a way to test multiple things in one test. These are useful
+when testing something where the return value is obvious, and doing a "Given,
+When Then" doesn't add much (or any) value:
+
+```rust
+#[test]
+fn calculates_line_slope() {
+    let cases = [
+        // (x1, y1), (x2, y2), slope kind
+        (Line::from((0, 0), (1, 1)), Slope::Up(1)),
+        (Line::from((1, 1), (0, 0)), Slope::Down(-1)),
+        (Line::from((0, 0), (1, 0)), Slope::Flat),
+        (Line::from((0, 1), (0, 0)), Slope::Vertical),
+    ];
+    for (i, (a, b, expect)) in cases.into_iter().enumerate() {
+        assert_eq!(calculate_slope(a, b), expect, "failure on case {i}");
+    }
+}
+```
+
+You can also wrap up creation of each case with a function if the setup code is
+long or noisy. Add comments to each case if it's not obvious what is being
+tested.
 
 ## Mutation Testing
 
