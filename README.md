@@ -228,7 +228,7 @@ fn foo_the_bars(args: FooTheBarsArgs) -> Result<usize, ()> {
 
 ## Test Doubles
 
-When developing with TDD you'll essentially be programming with traits. It is
+When developing with BDD you'll essentially be programming with traits. It is
 very easy to generate a test double from a trait using an IDE and then fill in
 the parts that you need. So don't be afraid to manually write a stub or spy
 just for a specific test.
