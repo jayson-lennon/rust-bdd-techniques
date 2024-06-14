@@ -8,12 +8,11 @@ This repo has some examples of different techniques you can use with Rust for be
 | [src/centralized_dependencies.rs](src/centralized_dependencies.rs) | Shows how to create a dependency container. |
 | [src/trait_abstraction.rs](src/trait_abstraction.rs) | Shows how a `struct` can carry it's own generic dependencies without impacting callers.  |
 
-Note: Keep `watchexec cargo t` running in another terminal to run your tests as you code.
-
 Table of Contents
 =================
 
 * [Behavior-Driven Development](#behavior-driven-development)
+* [Test Structure](#test-structure)
 * [Change-Resistant Tests](#change-resistant-tests)
   * [Integration Testing / E2E](#integration-testing--e2e)
 * [Test Doubles](#test-doubles)
@@ -40,6 +39,12 @@ Quick step-by-step guide for BDD:
    - Use a minimal implementation. Don't add code in anticipation of what you might need later.
    - Refactor your implementation _and_ your test cases as needed.
 5. Go back to step 1
+
+In order to keep everything running quickly, run `watchexec cargo t` in another
+terminal to execute your tests as you code. This will give you feedback
+whenever you save a file, so you'll know right away if you break something.
+
+### Test Structure
 
 Structure your tests like this:
 
