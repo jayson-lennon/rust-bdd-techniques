@@ -8,6 +8,8 @@ This repo has some examples of different techniques you can use with Rust for be
 | [src/centralized_dependencies.rs](src/centralized_dependencies.rs) | Shows how to create a dependency container. |
 | [src/trait_abstraction.rs](src/trait_abstraction.rs) | Shows how a `struct` can carry it's own generic dependencies without impacting callers.  |
 
+Note: Keep `watchexec cargo t` running in another terminal to run your tests as you code.
+
 Table of Contents
 =================
 
