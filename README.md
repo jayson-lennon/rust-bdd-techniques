@@ -34,8 +34,8 @@ Quick step-by-step guide for BDD:
 3. In the test case, write the ideal API that you would like in order to achieve the behavior
     - After writing the API in the test case, your test will fail because there is no implementation yet
 4. Implement the API in order to pass _just_ this test case.
-  - Use a minimal implementation. Don't add code in anticipation of what you might need later.
-  - Refactor your implementation _and_ your test cases as needed.
+    - Use a minimal implementation. Don't add code in anticipation of what you might need later.
+    - Refactor your implementation _and_ your test cases as needed.
 5. Go back to step 1
 
 Structure your tests like this:
